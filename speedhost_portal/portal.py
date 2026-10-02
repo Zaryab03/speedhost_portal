@@ -179,7 +179,9 @@ def get_service_for_portal(name: str) -> frappe._dict:
 		frappe.throw(_("Not Permitted"), frappe.PermissionError)
 
 	doc = frappe.get_doc(DOCTYPE, name)
-	if not frappe.has_website_permission(doc, ptype="read"):
+	# Call our check directly: frappe.has_website_permission() returns True for
+	# any doc object carrying flags.ignore_permissions.
+	if not has_website_permission(doc, "read", frappe.session.user):
 		frappe.throw(_("Not Permitted"), frappe.PermissionError)
 
 	service = frappe._dict({field: doc.get(field) for field in PORTAL_FIELDS})
