@@ -1,0 +1,377 @@
+{
+ "actions": [],
+ "allow_guest_to_view": 0,
+ "allow_rename": 0,
+ "autoname": "HS-.#####",
+ "creation": "2026-10-02 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "service_section",
+  "customer",
+  "customer_name",
+  "service_title",
+  "column_break_service",
+  "plan",
+  "domain",
+  "status",
+  "control_panel_section",
+  "control_panel_type",
+  "control_panel_url",
+  "column_break_cp",
+  "control_panel_username",
+  "webmail_section",
+  "webmail_url",
+  "mail_security",
+  "column_break_in",
+  "incoming_server",
+  "imap_port",
+  "pop3_port",
+  "column_break_out",
+  "outgoing_server",
+  "smtp_port",
+  "server_section",
+  "server_ip",
+  "column_break_dns",
+  "nameserver_1",
+  "nameserver_2",
+  "billing_section",
+  "subscription",
+  "billing_cycle",
+  "auto_renew",
+  "column_break_billing",
+  "start_date",
+  "renewal_date",
+  "renewal_amount",
+  "mailboxes_section",
+  "mailboxes",
+  "internal_section",
+  "internal_notes",
+  "column_break_internal",
+  "last_reminder_sent_on",
+  "last_reminder_stage"
+ ],
+ "fields": [
+  {
+   "fieldname": "service_section",
+   "fieldtype": "Section Break",
+   "label": "Service"
+  },
+  {
+   "bold": 1,
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "customer.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name",
+   "read_only": 1
+  },
+  {
+   "description": "e.g. Business Hosting - example.com",
+   "fieldname": "service_title",
+   "fieldtype": "Data",
+   "in_global_search": 1,
+   "label": "Service Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_service",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "plan",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Plan",
+   "options": "Item"
+  },
+  {
+   "description": "Bare domain, e.g. example.com (scheme and paths are stripped on save)",
+   "fieldname": "domain",
+   "fieldtype": "Data",
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "label": "Domain",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "default": "Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Pending\nActive\nSuspended\nExpired\nCancelled",
+   "reqd": 1
+  },
+  {
+   "description": "Never store passwords here. Share credentials via a one-time reset link or a ticket reply.",
+   "fieldname": "control_panel_section",
+   "fieldtype": "Section Break",
+   "label": "Control Panel"
+  },
+  {
+   "fieldname": "control_panel_type",
+   "fieldtype": "Select",
+   "label": "Control Panel Type",
+   "options": "\ncPanel\nPlesk\nDirectAdmin\nCyberPanel\nOther"
+  },
+  {
+   "fieldname": "control_panel_url",
+   "fieldtype": "Data",
+   "label": "Control Panel URL",
+   "options": "URL"
+  },
+  {
+   "fieldname": "column_break_cp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "control_panel_username",
+   "fieldtype": "Data",
+   "label": "Control Panel Username"
+  },
+  {
+   "fieldname": "webmail_section",
+   "fieldtype": "Section Break",
+   "label": "Webmail"
+  },
+  {
+   "fieldname": "webmail_url",
+   "fieldtype": "Data",
+   "label": "Webmail URL",
+   "options": "URL"
+  },
+  {
+   "default": "SSL/TLS",
+   "fieldname": "mail_security",
+   "fieldtype": "Select",
+   "label": "Mail Security",
+   "options": "\nSSL/TLS\nSTARTTLS"
+  },
+  {
+   "fieldname": "column_break_in",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "incoming_server",
+   "fieldtype": "Data",
+   "label": "Incoming Server"
+  },
+  {
+   "default": "993",
+   "fieldname": "imap_port",
+   "fieldtype": "Int",
+   "label": "IMAP Port",
+   "non_negative": 1
+  },
+  {
+   "default": "995",
+   "fieldname": "pop3_port",
+   "fieldtype": "Int",
+   "label": "POP3 Port",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "column_break_out",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "outgoing_server",
+   "fieldtype": "Data",
+   "label": "Outgoing Server"
+  },
+  {
+   "default": "465",
+   "fieldname": "smtp_port",
+   "fieldtype": "Int",
+   "label": "SMTP Port",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "server_section",
+   "fieldtype": "Section Break",
+   "label": "Server & DNS"
+  },
+  {
+   "fieldname": "server_ip",
+   "fieldtype": "Data",
+   "label": "Server IP"
+  },
+  {
+   "fieldname": "column_break_dns",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "nameserver_1",
+   "fieldtype": "Data",
+   "label": "Nameserver 1"
+  },
+  {
+   "fieldname": "nameserver_2",
+   "fieldtype": "Data",
+   "label": "Nameserver 2"
+  },
+  {
+   "fieldname": "billing_section",
+   "fieldtype": "Section Break",
+   "label": "Billing"
+  },
+  {
+   "fieldname": "subscription",
+   "fieldtype": "Link",
+   "label": "Subscription",
+   "options": "Subscription"
+  },
+  {
+   "fieldname": "billing_cycle",
+   "fieldtype": "Select",
+   "label": "Billing Cycle",
+   "options": "\nMonthly\nQuarterly\nHalf-Yearly\nYearly"
+  },
+  {
+   "default": "0",
+   "fieldname": "auto_renew",
+   "fieldtype": "Check",
+   "label": "Auto Renew"
+  },
+  {
+   "fieldname": "column_break_billing",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "renewal_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Renewal Date",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "renewal_amount",
+   "fieldtype": "Currency",
+   "label": "Renewal Amount"
+  },
+  {
+   "fieldname": "mailboxes_section",
+   "fieldtype": "Section Break",
+   "label": "Mailboxes"
+  },
+  {
+   "fieldname": "mailboxes",
+   "fieldtype": "Table",
+   "label": "Mailboxes",
+   "options": "Hosting Mailbox"
+  },
+  {
+   "collapsible": 1,
+   "description": "Staff only. Never shown on the customer portal.",
+   "fieldname": "internal_section",
+   "fieldtype": "Section Break",
+   "label": "Internal"
+  },
+  {
+   "fieldname": "internal_notes",
+   "fieldtype": "Small Text",
+   "label": "Internal Notes"
+  },
+  {
+   "fieldname": "column_break_internal",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_reminder_sent_on",
+   "fieldtype": "Date",
+   "label": "Last Reminder Sent On",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_reminder_stage",
+   "fieldtype": "Data",
+   "label": "Last Reminder Stage",
+   "no_copy": 1,
+   "read_only": 1
+  }
+ ],
+ "has_web_view": 0,
+ "links": [],
+ "modified": "2026-10-02 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Speedhost Portal",
+ "name": "Hosting Service",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales User",
+   "share": 0,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Support Team",
+   "share": 0,
+   "write": 1
+  }
+ ],
+ "search_fields": "customer,domain,service_title",
+ "show_title_field_in_link": 1,
+ "sort_field": "renewal_date",
+ "sort_order": "ASC",
+ "states": [],
+ "title_field": "service_title",
+ "track_changes": 1
+}
