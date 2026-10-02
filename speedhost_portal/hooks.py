@@ -33,3 +33,15 @@ portal_menu_items = [
 		"role": "Customer",
 	},
 ]
+
+# Installation
+# ------------
+
+after_install = "speedhost_portal.install.after_install"
+
+# Scheduled Tasks
+# ---------------
+
+scheduler_events = {
+	"daily": ["speedhost_portal.reminders.run_daily"],
+}
