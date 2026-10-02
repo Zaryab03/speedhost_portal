@@ -1,0 +1,26 @@
+{#- One row of /my-services. `doc` is a whitelisted dict from speedhost_portal.portal.get_service_list. -#}
+<div class="web-list-item transaction-list-item sh-service-row">
+	<div class="row align-items-center">
+		<div class="col-sm-5">
+			<span class="list-item-name font-weight-bold">{{ doc.service_title | e }}</span>
+			<div class="small text-muted">
+				{{ doc.domain | e }}{% if doc.plan_name %} &middot; {{ doc.plan_name | e }}{% endif %}
+			</div>
+		</div>
+		<div class="col-sm-2">
+			<span class="indicator-pill {{ doc.status_color }} list-item-status">{{ _(doc.status) | e }}</span>
+		</div>
+		<div class="col-sm-5 text-sm-right">
+			{% if doc.renewal_date %}
+			<div class="small text-muted">
+				{{ _("Renewal") }}: {{ frappe.format_date(doc.renewal_date) }}
+				{% if doc.billing_cycle %}&middot; {{ _(doc.billing_cycle) | e }}{% endif %}
+			</div>
+			{% endif %}
+			{% if doc.renewal_label %}
+			<span class="sh-renewal sh-renewal-{{ doc.renewal_color or 'ok' }}">{{ doc.renewal_label | e }}</span>
+			{% endif %}
+		</div>
+	</div>
+	<a class="transaction-item-link" href="/my-services/{{ doc.name | urlencode }}">{{ _("View") }}</a>
+</div>

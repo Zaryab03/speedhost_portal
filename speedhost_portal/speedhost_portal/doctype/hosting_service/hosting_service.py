@@ -156,3 +156,10 @@ class HostingService(Document):
 			)
 		return {"current": self.renewal_date, "period_end": period_end}
 
+
+
+def get_list_context(context=None):
+	"""Portal list context for /my-services (see speedhost_portal.portal)."""
+	from speedhost_portal.portal import get_list_context as portal_list_context
+
+	return portal_list_context(context)

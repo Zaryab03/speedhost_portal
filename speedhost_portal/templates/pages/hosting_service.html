@@ -1,0 +1,183 @@
+{% extends "templates/web.html" %}
+
+{#- `service` is a whitelisted dict built by speedhost_portal.portal.get_service_for_portal.
+    Internal fields are never present in it. Every value is escaped. -#}
+
+{% macro field(label, value, copy=False) -%}
+{% if value not in (None, "", 0) %}
+<div>
+	<dt>{{ label }}</dt>
+	<dd>
+		<span>{{ value | e }}</span>
+		{% if copy %}
+		<button type="button" class="btn btn-default btn-xs sh-copy" data-copy="{{ value | e }}"
+			title="{{ _('Copy') }}" aria-label="{{ _('Copy {0}').format(label) }}">{{ _("Copy") }}</button>
+		{% endif %}
+	</dd>
+</div>
+{% endif %}
+{%- endmacro %}
+
+{% macro link_field(label, url, text) -%}
+{% if url %}
+<div>
+	<dt>{{ label }}</dt>
+	<dd><a href="{{ url | e }}" target="_blank" rel="noopener noreferrer">{{ text | e }}</a></dd>
+</div>
+{% endif %}
+{%- endmacro %}
+
+{% block breadcrumbs %}
+	{% include "templates/includes/breadcrumbs.html" %}
+{% endblock %}
+
+{% block title %}{{ service.service_title | e }}{% endblock %}
+
+{% block header %}
+<div class="sh-detail-header">
+	<h3 class="m-0">{{ service.service_title | e }}</h3>
+	<span class="indicator-pill {{ service.status_color }}">{{ _(service.status) | e }}</span>
+	{% if service.renewal_label %}
+	<span class="sh-renewal sh-renewal-{{ service.renewal_color or 'ok' }}">{{ service.renewal_label | e }}</span>
+	{% endif %}
+</div>
+{% endblock %}
+
+{% block page_content %}
+<div class="sh-service">
+
+	<div class="sh-card">
+		<h5>{{ _("Service") }}</h5>
+		<dl class="sh-fields">
+			{{ field(_("Domain"), service.domain, copy=True) }}
+			{{ field(_("Plan"), service.plan_name) }}
+			{{ field(_("Status"), _(service.status)) }}
+			{{ field(_("Billing Cycle"), _(service.billing_cycle) if service.billing_cycle else None) }}
+			{{ field(_("Start Date"), frappe.format_date(service.start_date) if service.start_date else None) }}
+			{{ field(_("Renewal Date"), frappe.format_date(service.renewal_date) if service.renewal_date else None) }}
+			{{ field(_("Auto Renew"), _("Yes") if service.auto_renew else _("No")) }}
+		</dl>
+	</div>
+
+	{% if service.control_panel_url or service.control_panel_username %}
+	<div class="sh-card">
+		<h5>{{ _("Control Panel") }}{% if service.control_panel_type %} &middot; {{ service.control_panel_type | e }}{% endif %}</h5>
+		<dl class="sh-fields">
+			{{ link_field(_("Login URL"), service.control_panel_url, service.control_panel_url) }}
+			{{ field(_("Username"), service.control_panel_username, copy=True) }}
+		</dl>
+		<p class="sh-note mt-3 mb-0">
+			{{ _("For your security we never show passwords here. Use the password reset option in your control panel, or open a support ticket.") }}
+		</p>
+	</div>
+	{% endif %}
+
+	{% if service.webmail_url or service.incoming_server or service.outgoing_server %}
+	<div class="sh-card">
+		<h5>{{ _("Email") }}</h5>
+		<dl class="sh-fields">
+			{{ link_field(_("Webmail"), service.webmail_url, service.webmail_url) }}
+			{{ field(_("Incoming Server (IMAP/POP3)"), service.incoming_server, copy=True) }}
+			{{ field(_("IMAP Port"), service.imap_port, copy=True) }}
+			{{ field(_("POP3 Port"), service.pop3_port, copy=True) }}
+			{{ field(_("Outgoing Server (SMTP)"), service.outgoing_server, copy=True) }}
+			{{ field(_("SMTP Port"), service.smtp_port, copy=True) }}
+			{{ field(_("Security"), service.mail_security, copy=True) }}
+		</dl>
+
+		<details class="mt-3">
+			<summary>{{ _("How to set up your email") }}</summary>
+			<ol class="sh-note mt-2 mb-0">
+				<li>{{ _("Open your email app (Outlook, Apple Mail, Thunderbird, Gmail app) and choose to add an account manually.") }}</li>
+				<li>{{ _("Enter your full email address as the username, and your mailbox password.") }}</li>
+				<li>{{ _("Choose IMAP (recommended) or POP3 and copy the incoming server and port shown above.") }}</li>
+				<li>{{ _("Copy the outgoing (SMTP) server and port, turn on SMTP authentication, and select the security type shown above.") }}</li>
+			</ol>
+			{% if kb_url %}
+			<p class="sh-note mt-2 mb-0">
+				<a href="{{ kb_url | e }}" target="_blank" rel="noopener noreferrer">{{ _("Step-by-step guides in our knowledge base") }}</a>
+			</p>
+			{% endif %}
+		</details>
+	</div>
+	{% endif %}
+
+	{% if service.mailboxes %}
+	<div class="sh-card">
+		<h5>{{ _("Mailboxes") }}</h5>
+		<div class="sh-mailboxes">
+			<table class="table table-sm">
+				<thead>
+					<tr>
+						<th>{{ _("Address") }}</th>
+						<th class="text-right">{{ _("Quota") }}</th>
+						<th>{{ _("Status") }}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for mailbox in service.mailboxes %}
+					<tr>
+						<td>{{ mailbox.email_address | e }}</td>
+						<td class="text-right">{% if mailbox.quota_mb %}{{ mailbox.quota_mb }} MB{% else %}&mdash;{% endif %}</td>
+						<td>
+							<span class="indicator-pill {{ 'green' if mailbox.status == 'Active' else 'orange' }}">{{ _(mailbox.status) | e }}</span>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	{% endif %}
+
+	{% if service.nameserver_1 or service.nameserver_2 or service.server_ip %}
+	<div class="sh-card">
+		<h5>{{ _("Server & DNS") }}</h5>
+		<dl class="sh-fields">
+			{{ field(_("Nameserver 1"), service.nameserver_1, copy=True) }}
+			{{ field(_("Nameserver 2"), service.nameserver_2, copy=True) }}
+			{{ field(_("Server IP"), service.server_ip, copy=True) }}
+		</dl>
+	</div>
+	{% endif %}
+
+	<div class="sh-card">
+		<h5>{{ _("Need help?") }}</h5>
+		<p class="mb-2">{{ _("Our support team can help with email setup, DNS changes, password resets and renewals.") }}</p>
+		<a class="btn btn-primary btn-sm" href="{{ helpdesk_url | e }}">{{ _("Open a support ticket") }}</a>
+		<a class="btn btn-default btn-sm ml-2" href="/invoices">{{ _("View invoices") }}</a>
+		{% if support_email %}
+		<p class="sh-note mt-2 mb-0">{{ _("Or email us at") }} <a href="mailto:{{ support_email | e }}">{{ support_email | e }}</a></p>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+	document.addEventListener("click", (event) => {
+		const button = event.target.closest(".sh-copy");
+		if (!button) return;
+		const value = button.getAttribute("data-copy");
+		const done = () => {
+			const label = button.textContent;
+			button.textContent = {{ _("Copied") | tojson }};
+			setTimeout(() => (button.textContent = label), 1500);
+		};
+		if (navigator.clipboard && window.isSecureContext) {
+			navigator.clipboard.writeText(value).then(done);
+		} else {
+			const input = document.createElement("textarea");
+			input.value = value;
+			input.setAttribute("readonly", "");
+			input.style.position = "absolute";
+			input.style.left = "-9999px";
+			document.body.appendChild(input);
+			input.select();
+			document.execCommand("copy");
+			document.body.removeChild(input);
+			done();
+		}
+	});
+</script>
+{% endblock %}

@@ -1,0 +1,77 @@
+/* SpeedHost360 customer portal: /my-services */
+
+.sh-renewal {
+	display: inline-block;
+	margin-top: 4px;
+	padding: 2px 10px;
+	border-radius: 999px;
+	font-size: var(--text-sm, 0.85rem);
+	font-weight: 500;
+	background: var(--gray-100, #f3f3f3);
+	color: var(--gray-700, #4c5a67);
+}
+.sh-renewal-warning {
+	background: var(--yellow-50, #fff8e1);
+	color: var(--yellow-800, #8a6100);
+}
+.sh-renewal-danger {
+	background: var(--red-50, #fff0f0);
+	color: var(--red-700, #b52a2a);
+}
+
+.sh-detail-header {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+}
+
+.sh-card {
+	border: 1px solid var(--border-color, #e2e6e9);
+	border-radius: var(--border-radius-md, 8px);
+	padding: 16px 20px;
+	margin-bottom: 16px;
+	background: var(--card-bg, #fff);
+}
+.sh-card h5 {
+	margin: 0 0 12px;
+	font-weight: 600;
+}
+
+.sh-fields {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 12px 24px;
+	margin: 0;
+}
+.sh-fields dt {
+	font-weight: normal;
+	color: var(--text-muted, #6c7680);
+	font-size: var(--text-sm, 0.85rem);
+}
+.sh-fields dd {
+	margin: 2px 0 0;
+	word-break: break-all;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.sh-copy {
+	padding: 0 6px;
+	font-size: var(--text-xs, 0.75rem);
+	line-height: 1.6;
+}
+
+.sh-note {
+	font-size: var(--text-sm, 0.85rem);
+	color: var(--text-muted, #6c7680);
+}
+
+.sh-mailboxes {
+	width: 100%;
+	overflow-x: auto;
+}
+.sh-mailboxes table {
+	margin: 0;
+}
