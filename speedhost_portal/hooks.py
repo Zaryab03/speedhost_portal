@@ -45,3 +45,10 @@ after_install = "speedhost_portal.install.after_install"
 scheduler_events = {
 	"daily": ["speedhost_portal.reminders.run_daily"],
 }
+
+# Desk
+# ----
+
+override_doctype_dashboards = {
+	"Customer": "speedhost_portal.overrides.customer_dashboard.get_dashboard_data",
+}
